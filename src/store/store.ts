@@ -14,7 +14,11 @@ export const store = configureStore({
     getDefaultMiddlware({
       thunk: {
         extraArgument: {
-          client: ky,
+          client: ky.extend({
+            headers: {
+              Accept: '*/*',
+            },
+          }),
           api,
         },
       },

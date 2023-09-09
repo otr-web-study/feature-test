@@ -1,13 +1,10 @@
-interface ImageLinks {
-  smallThumbnail: string;
-  thumbnail: string;
-}
+import type { ImageLinks } from '.';
 
 export interface Book {
   id: string;
   title: string;
-  authors: string[];
+  authors?: string[];
   categories?: string[];
-  imageLinks: ImageLinks;
+  imageLinks?: ImageLinks;
   description?: string;
 }

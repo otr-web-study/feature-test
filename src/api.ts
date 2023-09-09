@@ -7,7 +7,7 @@ export interface SearchParams {
   page: number;
 }
 
-const BASE_URL = 'https://www.googleapis.com/books/v1/';
+const BASE_URL = 'https://www.googleapis.com/books/v1';
 const BOOKS_PER_PAGE = 30;
 
 export const searchBooks = ({ search, category, sortVariant, page }: SearchParams) =>

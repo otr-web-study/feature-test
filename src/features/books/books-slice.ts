@@ -1,4 +1,5 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { searchBooks } from './books-actions';
 import type { Book, Status } from '@/types';
 
 export interface BooksSlice {
@@ -22,6 +23,22 @@ const booksSlice = createSlice({
       booksAdapter.removeAll(state);
       state.qty = 0;
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(searchBooks.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(searchBooks.rejected, (state, action) => {
+        state.status = 'rejected';
+        state.error = action.payload || 'Unknown error';
+      })
+      .addCase(searchBooks.fulfilled, (state, action) => {
+        state.status = 'received';
+        state.qty = action.payload.totalItems;
+        booksAdapter.addMany(state, action.payload.items);
+      });
   },
 });
 

@@ -15,6 +15,10 @@ export default {
       borderRadius: {
         radii: '6px',
       },
+      screens: {
+        'grid-3': '850px',
+        'grid-4': '1200px',
+      },
     },
   },
   plugins: [],
