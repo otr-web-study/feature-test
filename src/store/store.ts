@@ -1,30 +1,36 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers, PreloadedState } from '@reduxjs/toolkit';
 import ky from 'ky';
 import { controlsReducer } from '@/features/controls/controls-slice';
 import { booksReducer } from '@/features/books/books-slice';
 import * as api from '@/api';
 
-export const store = configureStore({
-  reducer: {
-    controls: controlsReducer,
-    books: booksReducer,
-  },
-  devTools: true,
-  middleware: (getDefaultMiddlware) =>
-    getDefaultMiddlware({
-      thunk: {
-        extraArgument: {
-          client: ky.extend({
-            headers: {
-              Accept: '*/*',
-            },
-          }),
-          api,
-        },
-      },
-      serializableCheck: false,
-    }),
+const rootReducer = combineReducers({
+  controls: controlsReducer,
+  books: booksReducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export function setupStore(preloadedState?: PreloadedState<RootState>) {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+    devTools: true,
+    middleware: (getDefaultMiddlware) =>
+      getDefaultMiddlware({
+        thunk: {
+          extraArgument: {
+            client: ky.extend({
+              headers: {
+                Accept: '*/*',
+              },
+            }),
+            api,
+          },
+        },
+        serializableCheck: false,
+      }),
+  });
+}
+
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];

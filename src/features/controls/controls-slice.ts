@@ -25,9 +25,11 @@ const controlsSlice = createSlice({
     },
     setCategory: (state, action: PayloadAction<CategoryFilter>) => {
       state.category = action.payload;
+      state.page = 0;
     },
     setSort: (state, action: PayloadAction<SortVariants>) => {
       state.sort = action.payload;
+      state.page = 0;
     },
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;
