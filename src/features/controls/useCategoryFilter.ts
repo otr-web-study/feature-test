@@ -1,3 +1,4 @@
+import { useNavigate, useLocation } from 'react-router-dom';
 import { type SingleValue } from 'react-select';
 import { useAppDispatch, useAppSelector } from '@/store/appHooks';
 import { selectCategory } from './controls-selectors';
@@ -27,10 +28,16 @@ const options = Object.values(optionsMap);
 
 export const useCategoryFilter = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const category = useAppSelector(selectCategory);
 
-  const handleSelect = (cat: SingleValue<CategorySelectOptions>) =>
+  const handleSelect = (cat: SingleValue<CategorySelectOptions>) => {
     dispatch(setCategory(cat?.value ?? 'All'));
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
+  };
 
   return { category: optionsMap[category], options, handleSelect };
 };

@@ -23,7 +23,7 @@ export const BookCard: FC<BookCardProps> = ({ id }) => {
         />
         <h3 className="mt-6 min-h-[24px] w-full font-light text-gray-500 underline">{category}</h3>
         <h2 className="mt-3 w-full flex-grow font-medium">{book.title}</h2>
-        <p className="mt-2 w-full text-sm text-gray-500">{(book.authors || []).join(',')}</p>
+        <p className="mt-2 w-full text-sm text-gray-500">{(book.authors || []).join(', ')}</p>
       </Link>
     </article>
   );

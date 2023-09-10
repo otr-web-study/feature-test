@@ -21,6 +21,7 @@ const controlsSlice = createSlice({
   reducers: {
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload;
+      state.page = 0;
     },
     setCategory: (state, action: PayloadAction<CategoryFilter>) => {
       state.category = action.payload;

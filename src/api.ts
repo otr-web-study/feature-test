@@ -8,9 +8,11 @@ export interface SearchParams {
 }
 
 const BASE_URL = 'https://www.googleapis.com/books/v1';
-const BOOKS_PER_PAGE = 30;
+export const BOOKS_PER_PAGE = 30;
 
 export const searchBooks = ({ search, category, sortVariant, page }: SearchParams) =>
   `${BASE_URL}/volumes?q=${search}${
     category === 'All' ? '' : '+subject:' + category.toLowerCase()
-  }&orderBy=${sortVariant}&startIndex=${page * BOOKS_PER_PAGE}&maxResults=${BOOKS_PER_PAGE}`;
+  }&orderBy=${sortVariant}&startIndex=${page * BOOKS_PER_PAGE}&maxResults=${BOOKS_PER_PAGE}&key=${
+    import.meta.env.VITE_KEY
+  }`;

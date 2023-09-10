@@ -1,3 +1,4 @@
+import { useNavigate, useLocation } from 'react-router-dom';
 import { type SingleValue } from 'react-select';
 import { useAppDispatch, useAppSelector } from '@/store/appHooks';
 import { selectSort } from './controls-selectors';
@@ -22,10 +23,16 @@ const options = Object.values(optionsMap);
 
 export const useSortingBy = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const sort = useAppSelector(selectSort);
 
-  const handleSelect = (sortOpt: SingleValue<SortSelectOptions>) =>
+  const handleSelect = (sortOpt: SingleValue<SortSelectOptions>) => {
     dispatch(setSort(sortOpt?.value ?? 'Relevance'));
+    if (location.pathname !== '/') {
+      navigate('/');
+    }
+  };
 
   return { sort: optionsMap[sort], options, handleSelect };
 };

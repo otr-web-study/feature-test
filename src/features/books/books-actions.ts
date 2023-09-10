@@ -25,6 +25,8 @@ export const searchBooks = createAsyncThunk<
 >(
   '@@books/search-books',
   async (params, { extra: { client, api }, rejectWithValue }) => {
+    if (!params.search) return rejectWithValue('Search string is required!');
+
     try {
       const { totalItems, items }: SearchBooksResponse = await client
         .get(api.searchBooks(params), { mode: 'cors' })

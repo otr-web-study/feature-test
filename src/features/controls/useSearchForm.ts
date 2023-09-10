@@ -1,24 +1,30 @@
-import { FormEventHandler } from 'react';
-import { useAppDispatch, useAppSelector } from '@/store/appHooks';
-import { selectSearch } from './controls-selectors';
+import { FormEventHandler, useState } from 'react';
+import { useAppDispatch } from '@/store/appHooks';
 import { setSearch } from './controls-slice';
 import { clearBooks } from '../books/books-slice';
-import { useHandleSearch } from './useHandleSearch';
+import { useSearch } from './useSearch';
 
 export const useSearchForm = () => {
   const dispatch = useAppDispatch();
-  const search = useAppSelector(selectSearch);
-  const handleSearch = useHandleSearch();
+  const [searchString, setSearchString] = useState('');
+  useSearch();
 
-  const handleSearchChange = (val: string) => dispatch(setSearch(val));
+  const handleSearchChange = (val: string) => setSearchString(val);
+
+  const startNewSearch = (search: string) => {
+    dispatch(clearBooks());
+    dispatch(setSearch(search));
+  };
 
   const onSearchSubmit: FormEventHandler = (evt) => {
     evt.preventDefault();
-    dispatch(clearBooks());
-    handleSearch();
+    startNewSearch(searchString);
   };
 
-  const handleClear = () => dispatch(setSearch(''));
+  const handleClear = () => {
+    setSearchString('');
+    startNewSearch('');
+  };
 
-  return { search, handleSearchChange, handleSearch: onSearchSubmit, handleClear };
+  return { search: searchString, handleSearchChange, handleSearch: onSearchSubmit, handleClear };
 };
