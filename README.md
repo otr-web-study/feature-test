@@ -1,27 +1,42 @@
-# React + TypeScript + Vite
+# Тестовое задание для отклика google-books-search
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Инструкция по установке на локальный компьютер
 
-Currently, two official plugins are available:
+Клонировать репозиторий и перейти в папку проекта
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```
+git clone https://github.com/otr-web-study/feature-test.git && cd feature-test
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Запустить проект
+
+```
+npm run dev
+```
+
+Google api позволяет делать запросы к общедоступным ресурсам без указания ключа api, однако для таких запросов существует суточное ограничение.
+Если поиск завершается ошибкой, создайте файл .env.local в папке с проектом со следующим содержимым:
+
+```
+VITE_KEY=YOUR_APIKEY
+```
+
+Где YOUR_APIKEY - ваш api ключ полученный в гугл аккаунте.
+
+### Запуск из Docker образа
+
+В проекте добавлен Dockerfile, что позволяет собрать докер образ локально.
+Так же собранный образ опубликован на Dockerhub.
+Для запуска опубликованного адреса воспользуйтесь командой:
+
+```
+sudo docker run --name google-books-search -it -p 5173:5173 otrstudy/google-books-search
+```
+
+для передачи api ключа в контейнер, используйте команду:
+
+```
+sudo docker run --name google-books-search --env-file [your-env-file-path] -it -p 5173:5173 otrstudy/google-books-search
+```
+
+Где your-env-file-path - путь до вашего файла с переменной окружения VITE_KEY.
